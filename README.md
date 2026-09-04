@@ -223,13 +223,4 @@ docs/profiling/district_distinct.csv
 docs/profiling/ward_distinct.csv
 ```
 
-## Chính sách dữ liệu và Git
-
-- Không commit `data/raw/**`, `data/bronze/**`, `data/silver/**` hoặc
-  `data/gold/**`; Git chỉ giữ `.gitkeep` cho cấu trúc thư mục.
-- Không commit `.venv`, cache, file tạm, credential hoặc báo cáo JSON của từng
-  lần chạy.
-- Chỉ commit source code, specification, báo cáo ổn định và các bảng mapping
-  nhỏ cần chia sẻ.
-
 Chi tiết riêng của Bronze nằm tại [`src/bronze/README.md`](src/bronze/README.md).
