@@ -4,6 +4,7 @@ __pycache__/
 .venv/
 venv/
 .env
+.tmp/
 
 # VS Code
 .vscode/
@@ -28,6 +29,13 @@ spark-warehouse/
 metastore_db/
 derby.log
 *.crc
+
+# Local planning/context files (do not publish)
+/Ke_hoach_phan_cong_TLCN_Nhom6.txt
+/TLCN_Nhom6_Codex_Context_Bronze_Silver.txt
+
+# Per-run logs; keep only the stable summary/report in Git
+/docs/quality/bronze_ingestion_real_estate_*.json
 
 # OS
 .DS_Store
