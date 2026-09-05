@@ -28,7 +28,7 @@ Raw → Bronze → Silver → Gold → PostgreSQL/DWH → Dashboard
 | Bronze PySpark | Hoàn thành, full dataset đã PASS |
 | Source Catalog + Silver Core schema/DQ | Hoàn thành, phiên bản v1 đã triển khai |
 | Silver Listing Core | Hoàn thành, full dataset và validator độc lập đã PASS |
-| Location Master/Mapping | Người 2 khảo sát SRC02/SRC03; chưa tích hợp |
+| Location Mapping/Location Master | Đang phát triển độc lập từ SRC02/SRC03; chưa tích hợp vào Silver Listing Core |
 | Gold, DWH và Dashboard | Chưa thực hiện |
 
 Bronze hiện đọc 10 Raw shard, giữ nguyên 19 cột nguồn, thêm 5 cột metadata và
@@ -220,8 +220,9 @@ metadata, timestamp UTC, schema, codec và thư mục staging. Kết quả hợp
 
 ## Chạy Silver Listing Core
 
-Silver Core v1 chỉ đọc `data/bronze/real_estate/` của SRC01. Pipeline không đọc,
-không join và không sửa dữ liệu GIS/Administrative/Location Master của Người 2.
+Silver Core v1 chỉ đọc `data/bronze/real_estate/` của SRC01 và tập trung chuẩn hóa
+dữ liệu tin đăng. Dữ liệu GIS, danh mục hành chính và Location Master được xử lý
+trong pipeline Location Mapping riêng, sau đó mới tích hợp ở Silver Enriched.
 
 Chạy kiểm tra 10.000 dòng trước:
 

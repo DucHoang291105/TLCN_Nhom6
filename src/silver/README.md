@@ -1,7 +1,7 @@
 # Silver Listing Core (SRC01)
 
-Silver Core chuẩn hóa dữ liệu listing từ Bronze của `SRC01` mà không phụ thuộc
-Location Master của Người 2.
+Silver Core chuẩn hóa dữ liệu listing từ Bronze của `SRC01`. Việc chuẩn hóa mã
+hành chính và geometry thuộc pipeline Location Mapping độc lập.
 
 ## Phạm vi
 
@@ -12,7 +12,7 @@ data/bronze/real_estate
 ```
 
 - Input duy nhất là Bronze `vduydong/vietnam-real-estates-2`.
-- Không đọc hoặc join GIS, Administrative Database hay output của Người 2.
+- Không đọc hoặc join GIS, Administrative Database hay Location Master.
 - Giữ đủ 3.500.744 dòng để audit; dùng `is_canonical=true` để lấy tập không trùng.
 - Chuẩn hóa kiểu dữ liệu, thêm ID/lineage, trường thời gian, `price_per_m2`, cờ hợp lệ
   và DQ01–DQ14.

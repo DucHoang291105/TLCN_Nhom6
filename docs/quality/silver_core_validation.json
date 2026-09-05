@@ -1,6 +1,6 @@
 {
   "status": "PASS",
-  "validated_at_utc": "2026-09-05T01:43:31.350660+00:00",
+  "validated_at_utc": "2026-09-05T01:53:05.330893+00:00",
   "silver_batch_id": "silver_core_20260905T013354855842Z_d2629a94",
   "bronze_batch_id": "real_estate_20260904T134803402485Z_dd5b0a8c",
   "rows": 3500744,
@@ -53,6 +53,6 @@
     "dq_status_precedence": "PASS",
     "partitions": "PASS",
     "compression": "PASS",
-    "person_2_location_not_used": "PASS"
+    "location_enrichment_not_included": "PASS"
   }
 }

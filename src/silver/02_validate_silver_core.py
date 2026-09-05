@@ -116,7 +116,7 @@ def main():
         require(actual_names == expected_names, "Silver column names/order mismatch")
         require(
             not (set(actual_names) & FORBIDDEN_LOCATION_COLUMNS),
-            "Silver Core unexpectedly contains Person 2/location columns",
+            "Silver Core unexpectedly contains Location Master columns",
         )
 
         connection.execute(
@@ -299,7 +299,7 @@ def main():
             "dq_status_precedence": "PASS",
             "partitions": "PASS",
             "compression": "PASS",
-            "person_2_location_not_used": "PASS",
+            "location_enrichment_not_included": "PASS",
         },
     }
     REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)

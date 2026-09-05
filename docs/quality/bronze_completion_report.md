@@ -1,4 +1,4 @@
-# Báo cáo hoàn thành lớp Bronze — Người 1
+# Báo cáo hoàn thành lớp Bronze
 
 Ngày hoàn thành: 2026-09-04 20:49 (Asia/Saigon)
 

@@ -1,12 +1,12 @@
-# Báo cáo hoàn thành Silver Listing Core — Người 1
+# Báo cáo hoàn thành Silver Listing Core
 
 Ngày hoàn thành: 2026-09-05 (Asia/Saigon)
 
 ## Kết luận
 
 Silver Listing Core cho SRC01 đã hoàn thành và PASS cả quality gate trong PySpark
-lẫn kiểm định độc lập bằng DuckDB/PyArrow. Phiên bản này không đọc, join hoặc thay
-đổi dữ liệu Location Master của Người 2.
+lẫn kiểm định độc lập bằng DuckDB/PyArrow. Phiên bản này chỉ xử lý listing SRC01;
+Location Mapping/Location Master thuộc một pipeline độc lập.
 
 - Silver batch: `silver_core_20260905T013354855842Z_d2629a94`
 - Bronze batch đầu vào: `real_estate_20260904T134803402485Z_dd5b0a8c`
@@ -82,7 +82,7 @@ không dùng một filter `dq_status='VALID'` cho mọi trường hợp.
 - Ngữ nghĩa từng DQ01–DQ14 và mức ưu tiên REJECTED/REVIEW/VALID.
 - Các cờ field-validity và điều kiện sinh `price_per_m2`.
 - Tổng partition khớp tổng dòng; codec vật lý là Snappy; có `_SUCCESS`.
-- Không còn staging/backup và không có cột Location Master của Người 2.
+- Không còn staging/backup và không có cột Location Master trong Silver Core.
 
 ## Sự cố đã xử lý
 
@@ -111,6 +111,6 @@ docs/quality/silver_core_validation.json
 
 - DQ15 cho 1.868 dòng trống cả title/description chưa được duyệt nên không nằm
   trong DQ v1.
-- Chưa tích hợp Location Master/mã hành chính của Người 2. Việc này thuộc bước
-  `Silver Listing Enriched` và phải dùng left join sau khi mapping được duyệt.
+- Chưa tích hợp Location Master/mã hành chính. Việc này thuộc bước
+  `Silver Listing Enriched` và phải dùng left join sau khi mapping được kiểm định.
 - Chưa xây Gold/DWH/dashboard.

@@ -26,8 +26,8 @@ SRC01 Raw -> Bronze Listing -> Silver Listing Core
 SRC02 GIS + SRC03 Admin -> Location Master -> Silver Listing Enriched (làm sau)
 ```
 
-Không cần tải SRC02/SRC03 để duyệt hoặc xây Silver Core. Người 2 chỉ cần tải các
-snapshot đã pin khi bắt đầu Location Master.
+Không cần SRC02/SRC03 để xây Silver Core. Các snapshot đã pin của hai nguồn này
+chỉ được dùng trong pipeline Location Mapping/Location Master độc lập.
 
 ## 2. Schema đã triển khai
 
