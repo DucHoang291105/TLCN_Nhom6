@@ -34,8 +34,12 @@ derby.log
 /Ke_hoach_phan_cong_TLCN_Nhom6.txt
 /TLCN_Nhom6_Codex_Context_Bronze_Silver.txt
 
+# External handoff folder from Người 2; reviewed locally, never publish as project data
+/TLCN_Nhom6-main/
+
 # Per-run logs; keep only the stable summary/report in Git
 /docs/quality/bronze_ingestion_real_estate_*.json
+/docs/quality/silver_core_*.run.json
 
 # OS
 .DS_Store

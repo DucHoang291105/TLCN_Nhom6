@@ -5,8 +5,14 @@ sản tại Việt Nam. Dữ liệu chính là hơn 3,5 triệu tin đăng bất
 là dữ liệu listing, các chỉ số giá được hiểu là **giá đăng/giá chào bán**, không
 phải giá giao dịch thành công.
 
-Nguồn dữ liệu chính:
-[vduydong/vietnam-real-estates-2](https://huggingface.co/datasets/vduydong/vietnam-real-estates-2).
+Các nguồn đã chốt cho TLCN:
+
+- Listing chính: [vduydong/vietnam-real-estates-2](https://huggingface.co/datasets/vduydong/vietnam-real-estates-2).
+- GIS/reference: [adminvsrm/GISData](https://github.com/adminvsrm/GISData).
+- Administrative master: [thanglequoc/vietnamese-provinces-database](https://github.com/thanglequoc/vietnamese-provinces-database).
+
+NSO hiện chỉ là nguồn mở rộng tùy chọn; Google Maps/Places chưa được duyệt và
+không nằm trong pipeline hiện tại.
 
 ## Kiến trúc mục tiêu
 
@@ -18,10 +24,11 @@ Raw → Bronze → Silver → Gold → PostgreSQL/DWH → Dashboard
 
 | Lớp/hạng mục | Trạng thái |
 |---|---|
-| Raw và Data Profiling | Hoàn thành |
-| Data Dictionary và Data Quality Rules | Hoàn thành |
+| Raw và Data Profiling | Hoàn thành, đã bổ sung profiling count fields/P99 |
 | Bronze PySpark | Hoàn thành, full dataset đã PASS |
-| Silver và Location Mapping | Đang thực hiện tiếp |
+| Source Catalog + Silver Core schema/DQ | Hoàn thành, phiên bản v1 đã triển khai |
+| Silver Listing Core | Hoàn thành, full dataset và validator độc lập đã PASS |
+| Location Master/Mapping | Người 2 khảo sát SRC02/SRC03; chưa tích hợp |
 | Gold, DWH và Dashboard | Chưa thực hiện |
 
 Bronze hiện đọc 10 Raw shard, giữ nguyên 19 cột nguồn, thêm 5 cột metadata và
@@ -50,15 +57,19 @@ data/
 └── gold/                # Dữ liệu tổng hợp, không đưa lên Git
 docs/
 ├── profiling/           # Kết quả khảo sát dữ liệu
-├── quality/             # Báo cáo kiểm định Bronze
-├── data_dictionary.xlsx
-└── data_quality_rules.xlsx
+├── quality/             # Báo cáo kiểm định Bronze và Silver
+├── silver/              # Silver Core schema/design contract
+├── data_sources.xlsx    # Danh mục nguồn và scope
+├── data_dictionary.xlsx # Data Dictionary Silver Core 58 cột
+└── data_quality_rules.xlsx # DQ01-DQ14 và threshold/version
 scripts/
 ├── setup_spark_windows.ps1
-└── run_bronze.ps1
+├── run_bronze.ps1
+└── run_silver.ps1
 src/
-├── bronze/              # Smoke test, ingestion và validator
-└── quality/             # Profiling và sinh tài liệu chất lượng
+├── bronze/              # Smoke test, ingestion và validator Bronze
+├── quality/             # Profiling và sinh tài liệu chất lượng
+└── silver/              # Build và validator Silver Listing Core
 ```
 
 ## Yêu cầu môi trường
@@ -66,7 +77,7 @@ src/
 - Windows PowerShell.
 - Python 3.12 (Python 3.10+ tương thích với PySpark hiện tại).
 - Java 17 và lệnh `java` có trong `PATH`.
-- Tối thiểu khoảng 5 GiB dung lượng trống ngoài dữ liệu Raw.
+- Tối thiểu 7 GiB dung lượng trống ngoài dữ liệu Raw khi build Silver.
 - Không cần cài một bản `winutils.exe` không chính thức.
 
 Kiểm tra nhanh:
@@ -206,6 +217,70 @@ metadata, timestamp UTC, schema, codec và thư mục staging. Kết quả hợp
   "raw_bronze_business_match": true
 }
 ```
+
+## Chạy Silver Listing Core
+
+Silver Core v1 chỉ đọc `data/bronze/real_estate/` của SRC01. Pipeline không đọc,
+không join và không sửa dữ liệu GIS/Administrative/Location Master của Người 2.
+
+Chạy kiểm tra 10.000 dòng trước:
+
+```powershell
+.\scripts\run_silver.ps1 -SmokeTest
+```
+
+Chạy toàn bộ dữ liệu:
+
+```powershell
+.\scripts\run_silver.ps1
+```
+
+Pipeline thực hiện:
+
+1. Kiểm tra Bronze PASS, schema, source/batch, property type và threshold contract.
+2. Chuẩn hóa text, giá, diện tích, số tầng/phòng và thời gian đăng.
+3. Tạo `listing_id` SHA-256 có `source_id` + `source_name` để sẵn sàng cho đa nguồn.
+4. Giữ đủ audit rows, đánh `is_canonical=false` cho 50 bản sao exact duplicate.
+5. Tạo `price_per_m2`, các cờ field-validity và áp dụng DQ01–DQ14.
+6. Ghi 58 cột Parquet Snappy theo `partition_year_month`, read-back và chỉ promote
+   khi toàn bộ quality gate PASS.
+
+Kết quả full run đã xác nhận:
+
+| Chỉ số | Kết quả |
+|---|---:|
+| Trạng thái | `PASS` |
+| Input / output | 3.500.744 / 3.500.744 dòng |
+| Output columns | 58 |
+| Canonical / noncanonical | 3.500.694 / 50 dòng |
+| Exact duplicate groups | 36 |
+| DQ status VALID / REVIEW / REJECTED | 2.698.781 / 744.590 / 57.373 |
+| Part files | 10 |
+| Kích thước | 2.179.352.949 byte (khoảng 2,03 GiB) |
+| Compression | `SNAPPY` |
+| Thời gian full run | 312,05 giây |
+
+Output và báo cáo:
+
+```text
+data/silver/real_estate_core/
+docs/quality/silver_core_summary.json
+docs/quality/silver_core_validation.json
+docs/quality/silver_core_completion_report.md
+```
+
+Chạy lại kiểm định độc lập bằng DuckDB/PyArrow:
+
+```powershell
+.\.venv\Scripts\python.exe -X utf8 .\src\silver\02_validate_silver_core.py
+```
+
+Khi phân tích, luôn lọc `is_canonical=true` để tránh đếm trùng, sau đó thêm cờ
+hợp lệ đúng với KPI (`is_price_valid`, `is_area_valid`, `is_published_at_valid`,
+v.v.). Không nên loại mọi dòng khác `dq_status='VALID'` vì một dòng thiếu ward vẫn
+có thể dùng cho KPI giá hoặc cấp tỉnh.
+
+Chi tiết riêng nằm tại [`src/silver/README.md`](src/silver/README.md).
 
 ## Xuất danh sách địa danh để bàn giao
 

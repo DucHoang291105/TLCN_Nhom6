@@ -1,0 +1,19 @@
+source_id,threshold_version,scope,property_type,field,input_rows,non_null_rows,null_rows,zero_rows,negative_rows,non_integer_rows,min_value,p50,p95,p99_cont,p99_disc,max_value,recommended_review_threshold
+SRC01,src01_raw_20260904_p99_v1,ALL,,bathroom_count,3500744,1779770,1720974,0,0,0,1.0,2.0,5.0,13.0,13.0,255.0,13.0
+SRC01,src01_raw_20260904_p99_v1,PROPERTY_TYPE,Biệt thự/Nhà liền kề,bathroom_count,269782,131827,137955,0,0,0,1.0,4.0,6.0,9.740000000005239,10.0,100.0,10.0
+SRC01,src01_raw_20260904_p99_v1,PROPERTY_TYPE,Căn hộ chung cư,bathroom_count,762800,682557,80243,0,0,0,1.0,2.0,3.0,4.0,4.0,73.0,4.0
+SRC01,src01_raw_20260904_p99_v1,PROPERTY_TYPE,Nhà,bathroom_count,1575536,939093,636443,0,0,0,1.0,3.0,6.0,18.0,18.0,255.0,18.0
+SRC01,src01_raw_20260904_p99_v1,PROPERTY_TYPE,Shophouse,bathroom_count,59860,25664,34196,0,0,0,1.0,4.0,6.0,10.0,10.0,120.0,10.0
+SRC01,src01_raw_20260904_p99_v1,PROPERTY_TYPE,Đất,bathroom_count,832766,629,832137,0,0,0,1.0,1.0,5.0,15.0,15.0,44.0,15.0
+SRC01,src01_raw_20260904_p99_v1,ALL,,bedroom_count,3500744,1900383,1600361,0,0,0,1.0,3.0,6.0,14.0,14.0,200.0,14.0
+SRC01,src01_raw_20260904_p99_v1,PROPERTY_TYPE,Biệt thự/Nhà liền kề,bedroom_count,269782,138989,130793,0,0,0,1.0,4.0,6.0,10.0,10.0,100.0,10.0
+SRC01,src01_raw_20260904_p99_v1,PROPERTY_TYPE,Căn hộ chung cư,bedroom_count,762800,709883,52917,0,0,0,1.0,2.0,3.0,4.0,4.0,73.0,4.0
+SRC01,src01_raw_20260904_p99_v1,PROPERTY_TYPE,Nhà,bedroom_count,1575536,1026097,549439,0,0,0,1.0,4.0,7.0,19.0,19.0,200.0,19.0
+SRC01,src01_raw_20260904_p99_v1,PROPERTY_TYPE,Shophouse,bedroom_count,59860,24734,35126,0,0,0,1.0,4.0,7.0,10.0,10.0,120.0,10.0
+SRC01,src01_raw_20260904_p99_v1,PROPERTY_TYPE,Đất,bedroom_count,832766,680,832086,0,0,0,1.0,2.0,6.0,18.420000000000073,20.0,44.0,20.0
+SRC01,src01_raw_20260904_p99_v1,ALL,,floor_count,3500744,808762,2691982,0,0,0,1.0,4.0,7.0,8.0,8.0,255.0,8.0
+SRC01,src01_raw_20260904_p99_v1,PROPERTY_TYPE,Biệt thự/Nhà liền kề,floor_count,269782,135886,133896,0,0,0,1.0,4.0,5.0,7.0,7.0,52.0,7.0
+SRC01,src01_raw_20260904_p99_v1,PROPERTY_TYPE,Căn hộ chung cư,floor_count,762800,955,761845,0,0,0,1.0,6.0,36.0,40.0,40.0,45.0,40.0
+SRC01,src01_raw_20260904_p99_v1,PROPERTY_TYPE,Nhà,floor_count,1575536,649819,925717,0,0,0,1.0,4.0,7.0,8.0,8.0,255.0,8.0
+SRC01,src01_raw_20260904_p99_v1,PROPERTY_TYPE,Shophouse,floor_count,59860,20551,39309,0,0,0,1.0,4.0,6.0,7.0,7.0,35.0,7.0
+SRC01,src01_raw_20260904_p99_v1,PROPERTY_TYPE,Đất,floor_count,832766,1551,831215,0,0,0,1.0,1.0,6.0,9.0,9.0,40.0,9.0
